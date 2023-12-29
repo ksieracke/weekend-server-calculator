@@ -10,14 +10,14 @@
     <h1>Server-Side Calculator</h1>
 
     <form data-testid="calculator">
-      <input id="firstNum" placeholder="First Number">
-      <button id="plus">+</button>
-      <button id="minus">-</button>
-      <button id="multiply">*</button>
-      <button id="divide">/</button>
-      <input id="secondNum" placeholder="Second Number">
-      <button id="equals">=</button>
-      <button id="clear">C</button>
+      <input id="numOne" placeholder="First Number">
+      <button onclick="plusPressed(event)" id="plus">+</button>
+      <button onclick="minusPressed(event)" id="minus">-</button>
+      <button onclick="multiplyPressed(event)" id="multiply">*</button>
+      <button onclick="dividePressed(event)" id="divide">/</button>
+      <input id="numTwo" placeholder="Second Number">
+      <button id="equals" onclick="submitCalculation(event)">=</button>
+      <button onclick="clearPressed(event)" id="clear">C</button>
     </form>
 
     <section data-testid="recentResult">

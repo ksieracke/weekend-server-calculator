@@ -21,7 +21,7 @@ app.post('/calculations', (req,res)=>{
   const newCalc=req.body;
   console.log(`Get a POST request`, newCalc);
 
-  if(!newCalc.blah || !newCalc.blahblah || !newCalc.blahblahblah){
+  if(!newCalc.numOne || !newCalc.operator || !newCalc.numTwo || !newCalc.result){
     res.sendStatus(400);
     return;
   }

@@ -7,9 +7,6 @@ function submitCalculation(event){
     const operator=operatorsList[operatorsList.length-1];
     let numTwo=document.querySelector('#numTwo');
     const result=null;
-
-    
-
     console.log(numOne.value);
 
     //put together object and push to server to do calculations and add result
@@ -26,8 +23,42 @@ function submitCalculation(event){
             numOne.value='';
             numTwo.value='';
             fetchCalculations();
+            fetchCurrentResult();
         }
         )
+}
+
+function fetchCurrentResult(){
+    axios.get('/calculations')
+        .then(response => {
+            const calculations=response.data;
+            const currentResultSection = document.querySelector('#currentResultArea')
+            const lastCalculation=calculations[calculations.length-1];
+            currentResultSection.innerHTML=`<h3>${lastCalculation.result}</h3>`
+        })
+        .catch(error =>{
+            console.error('Error fetching last result', error)
+        })
+}
+
+function fetchCalculations(){
+    axios.get('/calculations')
+        .then(response => {
+            const calculations = response.data;
+            renderHistory(calculations);
+        })
+        .catch(error =>{
+            console.log('Error fetching calculations', error);
+        })
+}
+
+function renderHistory(calcHistory){
+    const calcHistoryList= document.querySelector('#calcHistoryList')
+    for(let calc of calcHistory){
+    calcHistoryList.innerHTML+=`<li>
+        ${calc.numOne} ${calc.operator} ${calc.numTwo} = ${calc.result}
+        </li>  `;
+}
 }
 
 

@@ -21,8 +21,24 @@ app.post('/calculations', (req,res)=>{
   const newCalc=req.body;
   console.log(`Get a POST request`, newCalc);
 
-  if(!newCalc.numOne || !newCalc.operator || !newCalc.numTwo || !newCalc.result){
+  if(!newCalc.numOne || !newCalc.operator || !newCalc.numTwo){
     res.sendStatus(400);
+    return;
+  }
+  if(newCalc.operator=='+'){
+    newCalc.result=newCalc.numOne+newCalc.numTwo;
+  }
+  else if(newCalc.operator=='-'){
+    newCalc.result=newCalc.numOne-newCalc.numTwo
+  }
+  else if(newCalc.operator=='*'){
+    newCalc.result=newCalc.numOne*newCalc.numTwo
+  }
+  else if(newCalc.operator=='/'){
+    newCalc.result=newCalc.numOne/newCalc.numTwo
+  }
+  else{
+    console.log('operator error');
     return;
   }
   calculations.push(newCalc);

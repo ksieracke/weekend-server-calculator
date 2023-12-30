@@ -7,7 +7,10 @@ function submitCalculation(event){
     const operator=operatorsList[operatorsList.length-1];
     let numTwo=document.querySelector('#numTwo');
     const result=null;
-    console.log(numOne.value);
+    if (isNaN(Number(numOne.value)) || isNaN(Number(numTwo.value))) {
+        console.error('Invalid input. Please enter valid numbers.');
+        return;
+      }
 
     //put together object and push to server to do calculations and add result
     const calc={
@@ -18,18 +21,30 @@ function submitCalculation(event){
     }
     console.log(calc);
 
-    axios.post('/calculations', calc)
+    //axios.post('/calculations', calc)
+    axios({
+        method: 'POST',
+        url: '/calculations',
+        data: calc,
+    })
         .then((response)=>{
             numOne.value='';
             numTwo.value='';
+
             fetchCalculations();
             fetchCurrentResult();
         }
         )
+        .catch((error)=>{
+            console.error('could not submit calculation', error);
+        });
 }
 
 function fetchCurrentResult(){
-    axios.get('/calculations')
+    axios({
+        method:'GET',
+        url: '/calculations',
+    })
         .then(response => {
             const calculations=response.data;
             const currentResultSection = document.querySelector('#currentResultArea')
@@ -42,9 +57,14 @@ function fetchCurrentResult(){
 }
 
 function fetchCalculations(){
-    axios.get('/calculations')
+    //axios.get('/calculations')
+    axios({
+        method:'GET',
+        url: '/calculations',
+    })
         .then(response => {
             const calculations = response.data;
+            console.log(calculations);
             renderHistory(calculations);
         })
         .catch(error =>{
@@ -53,14 +73,18 @@ function fetchCalculations(){
 }
 
 function renderHistory(calcHistory){
-    const calcHistoryList= document.querySelector('#calcHistoryList')
+    let calcResultListArea= document.querySelector('#calcResultHistory');
+    calcResultListArea.innerHTML=`<ul id="calcHistoryList"></ul>`;
     for(let calc of calcHistory){
-    calcHistoryList.innerHTML+=`<li>
+        calcResultListArea.innerHTML+=`<li>
         ${calc.numOne} ${calc.operator} ${calc.numTwo} = ${calc.result}
         </li>  `;
 }
 }
 
+window.onload = function(){
+    fetchCalculations();
+}
 
 function plusPressed(event){
     event.preventDefault();

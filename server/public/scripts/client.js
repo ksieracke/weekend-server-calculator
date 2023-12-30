@@ -49,7 +49,7 @@ function fetchCurrentResult(){
             const calculations=response.data;
             const currentResultSection = document.querySelector('#currentResultArea')
             const lastCalculation=calculations[calculations.length-1];
-            currentResultSection.innerHTML=`<h3>${lastCalculation.result}</h3>`
+            currentResultSection.innerHTML=lastCalculation.result
         })
         .catch(error =>{
             console.error('Error fetching last result', error)

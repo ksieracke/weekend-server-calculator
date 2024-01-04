@@ -25,17 +25,19 @@ app.post('/calculations', (req,res)=>{
     res.sendStatus(400);
     return;
   }
+  let numOne=parseInt(newCalc.numOne);
+  let numTwo=parseInt(newCalc.numTwo);
   if(newCalc.operator=='+'){
-    newCalc.result=newCalc.numOne+newCalc.numTwo;
+    newCalc.result=numOne+numTwo;
   }
   else if(newCalc.operator=='-'){
-    newCalc.result=newCalc.numOne-newCalc.numTwo
+    newCalc.result=numOne-numTwo
   }
   else if(newCalc.operator=='*'){
-    newCalc.result=newCalc.numOne*newCalc.numTwo
+    newCalc.result=numOne*numTwo
   }
   else if(newCalc.operator=='/'){
-    newCalc.result=newCalc.numOne/newCalc.numTwo
+    newCalc.result=numOne/numTwo
   }
   else{
     console.log('operator error');
